@@ -61,7 +61,8 @@ class Scene1(Entity):
             enemy = Enemy(x, y)
             enemy.add_script(SmoothFollow(target = self.char, speed = 0.5))
             self.enemies.append(enemy)
-            invoke(self.create_enemies, delay = 3)
+        invoke(self.create_enemies, delay = 3)
+            
     def destroy_bullet(self):
         for bullet in self.bullets:
             destroy(bullet)

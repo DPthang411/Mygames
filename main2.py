@@ -1,12 +1,13 @@
 from ursina import *
 from random import choice
 class player(Entity):
-    def __init__(self):
+    def __init__(self, parent):
         super().__init__()
         self.model = 'quad'
         self.color = color.green
         self.y = -3
         self.collider = 'box'
+        self.parent = parent
     def input(self, key):
         if key == 'a':
             self.x -= 3
@@ -32,7 +33,7 @@ class enemy(Entity):
         self.collider = 'box'
         self.position = pos
     def update(self):
-        self.y -= 0.1
+        self.y -= 0.2
         hit_info = self.intersects(ignore=[self])
         if type(hit_info.entity) == collider_entity:
             destroy(self)
@@ -43,7 +44,7 @@ class scene1(Entity):
         self.collide1 = collider_entity(pos = (-3,-5))
         self.collide2 = collider_entity(pos = (0,-5))
         self.collide3 = collider_entity(pos = (3,-5))
-        self.char = player()
+        self.char = player(parent = self)
         self.char.parent = self
         self.enemies = []
         self.create_enemies()
@@ -53,7 +54,7 @@ class scene1(Entity):
             y = 5
             Enemy = enemy(pos = (x, y))
             self.enemies.append(Enemy)
-        invoke(self.create_enemies, delay = 1.3)
+        invoke(self.create_enemies, delay = 1)
     def destroy_enemies(self):
         for enemy in self.enemies:
             destroy(enemy)
